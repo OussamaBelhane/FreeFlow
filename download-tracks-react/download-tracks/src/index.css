@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Basic custom styles */
+@layer base {
+  body {
+    @apply bg-dark text-white;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply px-4 py-2 rounded-lg font-medium transition-all duration-200;
+  }
+  
+  .btn-primary {
+    @apply bg-primary text-black hover:bg-primaryHover hover:-translate-y-0.5;
+  }
+  
+  .card {
+    @apply bg-gradient-to-br from-darkLight to-darkMedium rounded-xl overflow-hidden;
+  }
+}
