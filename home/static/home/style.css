@@ -1,0 +1,3047 @@
+body{
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    background-color: black;
+    color: white;
+    overflow: hidden;
+}
+
+.logo-icon {
+    font-size: 24px;
+    color: #ffffff;
+    padding: 8px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.logo-icon:hover {
+    transform: scale(1.05);
+}
+
+.top-bar {
+    height: 60px; /* Adjust height as needed */
+    background-color: #000; /* Black background for top bar */
+    display: flex;
+    justify-content: space-between; /* Re-apply space-between */
+    align-items: center;
+    padding: 0 1.5rem; /* Horizontal padding */
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.top-bar-left {
+   /* Remove fixed width and shrink */
+   display: flex; /* Ensure content within aligns properly */
+   align-items: center;
+}
+
+.spotify-logo {
+    height: 25px; /* Adjust logo size */
+}
+
+.bi-spotify{
+    font-size: x-large;
+}
+
+.top-bar-center {
+    /* flex-grow: 1; Remove grow */
+    max-width: 500px; /* Constrain the max width, adjust as needed */
+    width: 100%; /* Allow it to shrink if needed */
+    display: flex;
+    /* justify-content: center; Remove this, let gap handle spacing */
+    align-items: center;
+    gap: 0.75rem; /* Space between home, search, archive */
+}
+
+.top-bar-center .nav-arrow { /* Style for home/archive icons in top bar */
+    background-color: #2a2a2a; /* Slightly lighter background than arrows */
+    color: #b3b3b3; /* Grey icon */
+}
+.top-bar-center .nav-arrow:hover {
+    color: #fff;
+}
+
+
+.search-bar {
+    flex-grow: 1; /* Allow search bar to take available space */
+    background-color: #2a2a2a;
+    border-radius: 500px;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.search-icon {
+    color: #b3b3b3;
+    font-size: 1.1rem;
+}
+
+.search-bar input {
+    flex-grow: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.9rem;
+}
+
+.search-bar input::placeholder {
+    color: #b3b3b3;
+}
+
+.top-bar-options { /* Styles for the right-side options container */
+   /* Remove fixed width and shrink */
+    display: flex;
+    justify-content: flex-end; /* Keep items aligned to the right */
+    align-items: center;
+    gap: 1rem; /* Space between options */
+}
+
+/* --- Adjust .main height --- */
+.main{
+    display: flex;
+    height: calc(100vh - 80px - 60px); /* Full height - music player - top bar */
+    padding: 0.5rem;
+    position: relative; /* Needed for absolute positioning of right sidebar */
+    /* overflow: hidden; Try removing overflow clipping */
+}
+.sidebar-left{
+    background-color:black;
+    width: 340px;
+    border-radius: 1rem;
+    margin-right: 0.5rem;
+
+}
+.main-content{
+    position: static;
+    background-color: #121212;
+    flex: 1rem;
+    border-radius: 1rem;
+    overflow-y: auto;
+    padding: 0 1.5rem 0 1.5rem;
+    /* Custom scrollbar for main-content */
+    scrollbar-width: thin;
+    scrollbar-color: #385242 #232323;
+}
+
+/* Webkit scrollbar styling for main-content */
+.main-content::-webkit-scrollbar {
+    width: 8px;
+    background: #232323;
+}
+.main-content::-webkit-scrollbar-thumb {
+    background: #1ed760;
+    border-radius: 4px;
+}
+
+
+/* Remove scroll from .main-content when album detail is shown */
+.album-detail-view ~ .main-content,
+.album-detail-view {
+    overflow-y: visible !important;
+    height: auto !important;
+}
+
+.music-player{
+    background-color: black;
+    position: fixed;
+    bottom: 0;
+    width: 99%;
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem;
+    color: white;
+}
+
+a{
+    text-decoration: none;
+    color: #fff;
+}
+
+.nav{
+    background-color: #121212;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100px;
+    padding: 0.05rem 0.75rem;
+}
+.nav-option{
+    line-height: 2.5rem;
+    opacity: 0.7;
+    padding: 0.5rem 0.75rem;
+}
+.nav-option:hover{
+    opacity: 1;
+}
+
+.nav-option i{
+    font-size: 1.25rem;
+}
+
+.nav-option a{
+    font-size: 1rem;
+    margin-left: 1rem ;
+}
+
+.library{
+    background-color: #121212;
+    border-radius: 1rem;
+    height: 100%;
+    margin-top: 0.5rem;
+    padding:0.5rem 0.75rem ;
+}
+.options{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+.lib-option i{
+   height: 1.25rem;
+   width: 1.25rem;
+}
+
+.icons{
+     font-size: 1.25rem;
+   display: flex;
+}
+
+.icons i{
+    opacity: 0.7;
+    margin-right: 1rem;
+}
+.icons i:hover{
+    opacity: 1;
+}
+.box{
+    background-color: #232323;
+    height: 8rem;
+    border-radius: 0.75rem;
+    margin: 0.75rem 0 1.75rem 0;
+    padding: 0.75rem 1rem;
+}
+.box-p1{
+    font-size: 1rem;
+    font-weight: 500;
+}
+.box-p2{
+    font-size: 0.75rem;
+    opacity: 0.9 ;
+
+}
+.badge{
+    background-color: white;
+    border: none;
+    border-radius: 100px;
+    padding: 0.25rem 1rem;
+    font-weight: 700;
+    margin-top: 0.5rem;
+    height: 2rem;
+    width: fit-content;
+    color: black;
+    cursor: pointer;
+}
+.dark-badge{
+    background-color: #000;
+    color: #fff;
+}
+/* --- Remove old sticky-nav styles --- */
+/* .sticky-nav { ... } */
+/* .sticky-nav-icons { ... } */
+/* These styles are no longer needed as the header is moved */
+
+/* Keep .nav-arrow styles as they are reused */
+
+.nav-arrow {
+    width: 2rem; /* Keep size */
+    height: 2rem; /* Keep size */
+    background-color: rgba(0, 0, 0, 0.7); /* Keep background */
+    border-radius: 50%; /* Keep circular shape */
+    display: flex; /* Use flexbox for centering */
+    justify-content: center; /* Center icon horizontally */
+    align-items: center; /* Center icon vertically */
+    cursor: pointer;
+    color: #a7a7a7; /* Default icon color */
+    transition: color 0.2s ease; /* Smooth color transition */
+}
+
+.nav-arrow:hover {
+    color: #ffffff; /* White icon on hover */
+}
+
+.nav-arrow i { /* Style the Font Awesome icon directly */
+    font-size: 0.9rem; /* Adjust icon size */
+}
+
+/* --- Rename class selectors for options --- */
+/* Styles for .nav-item, .badge, .dark-badge, .fa-bell, .fa-user remain largely the same */
+/* but need to target .top-bar-options instead of .sticky-nav-options */
+
+/* Example: Change .sticky-nav-options .badge to .top-bar-options .badge */
+
+.nav-item { /* Common style for all items in the options section */
+    opacity: 0.7;
+    cursor: pointer;
+    transition: opacity 0.2s ease, transform 0.2s ease; /* Add transitions */
+}
+
+.nav-item:hover {
+    opacity: 1;
+    transform: scale(1.05); /* Slight scale on hover */
+}
+
+/* Specific adjustments for header badges */
+.top-bar-options .badge {
+    padding: 0.6rem 1.2rem; /* Slightly larger padding */
+    margin: 0; /* Reset margin */
+    font-size: 0.85rem; /* Slightly larger font */
+    font-weight: 600; /* Make font bolder */
+    border: none; /* Ensure no border */
+    border-radius: 500px; /* Ensure fully rounded */
+    cursor: pointer;
+}
+
+.top-bar-options .dark-badge {
+    background-color: #000; /* Keep black background */
+    color: #a7a7a7; /* Greyish text */
+}
+
+.top-bar-options .dark-badge:hover {
+    /* transform is handled by .nav-item:hover */
+    background-color: #111; /* Keep hover background */
+    color: #fff; /* White text on hover */
+}
+
+.top-bar-options .badge:not(.dark-badge) { /* Style for the white 'Explore Premium' button */
+     background-color: white;
+     color: black;
+}
+
+.top-bar-options .badge:not(.dark-badge):hover {
+     /* transform is handled by .nav-item:hover */
+     background-color: #f6f6f6; /* Slightly off-white on hover */
+}
+
+/* Bell and User icon specific styles */
+.top-bar-options .fa-bell,
+.top-bar-options .fa-user {
+    background-color: rgba(0, 0, 0, 0.7); /* Dark semi-transparent background */
+    border-radius: 50%; /* Make it circular */
+    padding: 0.6rem; /* Adjust padding */
+    font-size: 1rem; /* Adjust icon size */
+    color: #a7a7a7; /* Default icon color */
+    /* transitions handled by .nav-item */
+}
+
+.top-bar-options .fa-bell:hover,
+.top-bar-options .fa-user:hover {
+    color: #ffffff; /* White icon on hover */
+    /* transform handled by .nav-item:hover */
+}
+
+@media(max-width:1000px){
+    .hide{
+        display: none;
+    }
+}
+
+.main-content-header{
+    background-color: #121212;
+}
+
+.upper-content {
+    margin-top: 8px;
+}
+
+
+.upper-content, .lower-content {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    justify-content: center;
+    padding: 5px;
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+}
+
+.box1 {
+    background-color: #232323;
+    border-radius: 4px;
+    padding: 1px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+}
+
+.box1 p {
+    font-size: 17px;
+    margin-left: 10px;
+    margin-right: 10px;
+    font-weight: normal;
+}
+
+.box1 img {
+    max-width: 65px;
+    height: 65px;
+    border-radius: 3%;
+}
+
+
+.fa-sharp {
+    font-size: 40px;
+    margin-left: 11rem;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.box1 {
+    position: relative;
+    background-color: #ffffff1a;
+}
+
+.fa-sharp {
+    position: absolute;
+    right: 1rem; /* Position from the right edge */
+    /* Remove left and transform */
+}
+.box1:hover {
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.2);
+    transition: background-color 0.3s ease;
+}
+.box1:hover .fa-sharp {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.card{
+    background-color: #232323;
+    width: 150px;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-left: 1.5rem;
+    margin-top: 1rem;
+    border-color:#232323 ;
+    position: relative; /* Needed for absolute positioning of the icon */
+    transition: background-color 0.3s ease; /* Add transition for hover effect */
+}
+.card-container{
+    display: flex;
+    flex-wrap: wrap;
+}
+.card-img{
+    width: 100%;
+    border-radius: 0.5rem;
+}
+.card-title{
+    font-weight: 600;
+}
+.card-info{
+    font-size: 0.75rem;
+    opacity: 0.8;
+}
+
+.card:hover {
+    background-color: #2a2a2a; /* Slightly lighter background on hover */
+    cursor: pointer;
+}
+
+.card-play-icon {
+    position: absolute;
+    bottom: 7.5rem; /* Adjusted: Move icon further up */
+    right: 1.5rem; /* Keep position from right */
+    font-size: 2.5rem; /* Adjust size as needed */
+    opacity: 0; /* Hidden by default */
+    transition: opacity 0.3s ease, transform 0.3s ease; /* Smooth transition */
+    transform: translateY(10px); /* Start slightly lower */
+}
+
+
+
+.card:hover .card-play-icon {
+    opacity: 1; /* Show on hover */
+    transform: translateY(0); /* Move to final position */
+}
+.grid-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.grid-item {
+    flex: 1;
+    border: none;
+    color: white;
+    padding: 1rem;
+    background-color: transparent;
+}
+
+.grid-item h2 {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.grid-item ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    opacity: 0.6;
+    font-size: 0.9rem;
+}
+
+.grid-item li {
+    margin: 15px 0;
+
+}
+
+.social-icons {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+}
+
+/* Style the social icons */
+.social-icons i {
+    font-size: 24px;
+    margin: 0 8px;
+    color: white;
+    background-color: #232323;
+    border-radius: 50%;
+    padding: 10px;
+}
+.footer{
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.line{
+    width: 90%;
+    height: 0%;
+    border-top: 1px solid white;
+    opacity: 0.4;
+}
+/* Style for the list */
+.legal-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+/* Style for list items */
+.legal-list li {
+    display: inline;
+    margin-right: 10px;
+    font-weight: normal;
+    font-size: 0.9rem;
+    cursor: pointer;
+    opacity :0.50;
+    }
+.copyright {
+    display: block;
+    opacity: 0.3;
+    font-weight: normal;
+    font-size: 0.9rem;
+    margin-top: -20px;
+    margin-right: 20px;
+    text-align: right;
+    cursor: pointer;
+    transition: color 0.3s, opacity 0.3s, text-shadow 0.3s; /* Add smooth transitions */
+}
+
+.music-player{
+    display: flex;
+    justify-content: space-between;
+
+}
+.album{
+    width: 25%;
+
+}
+.player{
+    width: 50%;
+    margin-right: 45px;
+
+}
+
+.player-controls{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+}
+.player-controls i{
+    height: 1rem;
+    font-size: 1.5rem;
+    margin-right: 1.75rem;
+    color: rgb(208, 208, 208);
+}
+
+.player-controls .active,
+.player-controls .bi-shuffle.active,
+.player-controls .bi-repeat.active {
+    color: #1ed760 !important;
+}
+
+/* Hover effect for control icons */
+.player-controls i:hover {
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.player-controls .active,
+.player-controls .bi-shuffle.active,
+.player-controls .fa-repeat.active {
+    color: #1ed760 !important;
+}
+
+.controls{
+    width: 25%;
+}
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    width: 25%;
+    justify-content: flex-end;
+    opacity: 0.8;
+    margin-right: 2rem;
+    min-width: 180px;
+    max-width: 340px;
+}
+
+.controls .bi {
+    cursor: pointer;
+    transition: color 0.2s, transform 0.2s;
+}
+
+.controls .bi:hover {
+    color: #fff;
+    transform: scale(1.1);
+}
+
+.playback-bar{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+}
+.progress-bar{
+    width: 70%;
+    appearance: none;
+    background-color: transparent;
+    cursor: pointer;
+
+}
+
+.progress-bar::-webkit-slider-runnable-track{
+    background-color: #ddd;
+    border-radius: 100px;
+    height: 0.2rem;
+}
+.progress-bar::-webkit-slider-thumb{
+    appearance: none;
+    height: 1rem;
+    width: 1rem;
+    background-color: #1bd706;
+    border-radius: 50px;
+    margin-top: -6px;
+}
+.progress-bar::-webkit-slider-thumb:hover {
+    background-color: #fffcfc;
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+
+.progress-bar::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    opacity: 0;
+}
+.progress-bar:hover::-moz-range-thumb {
+    opacity: 1;
+    background: #fff;
+}
+
+/* Style the album container */
+.album {
+    display: flex;
+    align-items: center;
+    margin-left: 2rem;
+}
+
+.album img {
+    width: 50px; /* Adjust size as needed */
+    height: 50px; /* Adjust size as needed */
+    border: none;
+    margin-right: 1rem; /* Space between image and text */
+}
+
+/* Style the container for the song name and artist name */
+.name {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-left: 1rem;
+    gap: 1rem;
+}
+
+/* Style the first paragraph (song name) */
+.firstword {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    transition: color 0.3s;
+    cursor: pointer;
+}
+
+/* Style the second paragraph (artist name) */
+.secondword {
+    opacity: 0.5;
+    font-size: 0.75rem;
+    margin-top: -1rem;
+    cursor: pointer;
+}
+
+/* Style the heart icon */
+.heart {
+    display: none;
+}
+
+
+.progress-bar::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    opacity: 0;
+}
+.progress-bar:hover::-moz-range-thumb {
+    opacity: 1;
+    background: #fff;
+}
+.progress-bar1{
+    width: 70%;
+    appearance: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.progress-bar1::-webkit-slider-runnable-track{
+    background-color: #ddd;
+    border-radius: 100px;
+    height: 0.2rem;
+}
+.progress-bar1::-webkit-slider-thumb{
+    appearance: none;
+    height: 1rem;
+    width: 1rem;
+    background-color: #1bd706;
+    border-radius: 30px;
+    margin-top: -6px;
+}
+.progress-bar1::-webkit-slider-thumb:hover {
+    background-color: #fffcfc;
+    transform: scale(1.2);
+    transition: background-color 0.3s, transform 0.3s;
+    cursor: pointer;
+}
+
+.progress-bar1-wrapper {
+    flex: 1 1 0;
+    display: flex;
+    align-items: center;
+    height: 12px;
+    min-width: 60px;
+    max-width: 120px;
+    margin: 0 0.2rem;
+}
+
+.progress-bar1-bg {
+    width: 100%;
+    height: 4px;
+    background: #444;
+    border-radius: 3px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    /* Remove background here, handled by JS for dynamic fill */
+}
+
+.progress-bar1 {
+    width: 100%;
+    height: 4px;
+    background: transparent;
+    accent-color: #fff;
+    border-radius: 3px;
+    outline: none;
+    appearance: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    margin: 0;
+    padding: 0;
+    z-index: 2;
+    cursor: pointer;
+}
+
+.progress-bar1::-webkit-slider-thumb {
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #1ed760;
+    box-shadow: 0 0 4px #1ed76088;
+    border: none;
+    cursor: pointer;
+}
+.progress-bar1::-webkit-slider-thumb:hover {
+    background: #fff;
+}
+.progress-bar1::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    opacity: 0;
+}
+.progress-bar1:hover::-moz-range-thumb {
+    opacity: 1;
+    background: #fff;
+}
+.progress-bar1::-webkit-slider-runnable-track {
+    background-color: #444;
+    border-radius: 3px;
+    height: 6px;
+}
+.progress-bar1::-ms-fill-lower {
+    background: #1ed760;
+    border-radius: 3px;
+}
+.progress-bar1::-ms-fill-upper {
+    background: #444;
+    border-radius: 3px;
+}
+.progress-bar1::-ms-thumb {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #1ed760;
+    border: none;
+    cursor: pointer;
+}
+.progress-bar1:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.sidebar-right {
+    background-color: #121212; /* Match left sidebar */
+    width: 280px; /* Adjust width as needed */
+    border-radius: 1rem;
+    margin-left: 0.5rem; /* Add space between main content and right sidebar */
+    padding: 1rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto; /* Allow scrolling if content overflows */
+    color: #b3b3b3; /* Default text color */
+}
+
+.right-sidebar-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #282828; /* Subtle separator */
+    font-weight: 600;
+    color: #fff; /* White header text */
+}
+
+.right-sidebar-header i {
+    font-size: 1.2rem;
+}
+
+.friend-activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem; /* Space between friend entries */
+}
+
+.friend-activity {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+}
+
+.friend-avatar {
+    position: relative;
+    width: 40px; /* Avatar size */
+    height: 40px;
+}
+
+.friend-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover; /* Ensure image covers the circle */
+}
+.friend-avatar .friend-initials {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #e13368; /* Pink background for initials */
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+
+.status-dot {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid #121212; /* Border matching background */
+}
+
+.status-dot.online {
+    background-color: #1ed760; /* Spotify green */
+}
+
+.friend-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem; /* Small gap between name and status */
+}
+
+.friend-name {
+    color: #fff; /* White name */
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.friend-status {
+    font-size: 0.8rem;
+    color: #b3b3b3; /* Grey status */
+}
+
+/* Class to hide the right sidebar */
+.sidebar-right.hidden {
+    width: 0;
+    padding: 0;
+    margin-left: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: width 0.3s ease, padding 0.3s ease, margin-left 0.3s ease, opacity 0.3s ease; /* Add transition */
+}
+
+.fa-user-group-top {
+    margin-right: 15px;
+    cursor: pointer;
+}
+
+/* --- Auth Options Styles (Top Bar) --- */
+.auth-options {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem; /* Adjust spacing between sign up and log in */
+}
+
+.signup-link {
+    color: #a7a7a7; /* Greyish color */
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    font-size: 0.95rem; /* Match button font size */
+}
+
+.signup-link:hover {
+    color: #fff; /* White on hover */
+}
+
+.login-button {
+    /* Inherits .badge styles (including height: 2rem) */
+    background-color: #fff; /* White background */
+    color: #000; /* Black text */
+    font-weight: 600;
+    padding: 0 1.8rem; /* Adjust horizontal padding, remove vertical padding */
+    font-size: 0.95rem;
+    border: none;
+    border-radius: 500px; /* Ensure fully rounded */
+    cursor: pointer;
+    text-align: center; /* Ensure horizontal centering */
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.login-button:hover {
+    transform: scale(1.05); /* Slightly larger on hover */
+    background-color: #f0f0f0; /* Slightly off-white */
+}
+
+/* Utility class to hide elements */
+.hidden {
+    display: none !important; /* Use important to override other display rules if necessary */
+}
+
+.login-button-p {
+    margin-top: -3px;
+    margin-bottom: 0px;
+}
+.fa-plus {
+    cursor: pointer;
+}
+
+/* --- Responsive fix for 1366x768 screens --- */
+@media screen and (max-width: 1400px) and (max-height: 800px) {
+    .main {
+        height: calc(100vh - 120px); /* Reduce height for smaller screens */
+        padding: 0.25rem;
+    }
+    .sidebar-left {
+        width: 250px;
+        min-width: 180px;
+        font-size: 0.92rem;
+    }
+    .main-content {
+        padding: 0 0.5rem 0 0.5rem;
+        font-size: 0.97rem;
+    }
+    .upper-content, .lower-content {
+        gap: 12px;
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
+        padding: 2px;
+    }
+    .box1 {
+        padding: 0;
+        min-width: 0;
+        font-size: 0.95rem;
+    }
+    .box1 img {
+        max-width: 48px;
+        height: 48px;
+    }
+    .fa-sharp {
+        font-size: 28px;
+        right: 0.5rem;
+        margin-left: 0;
+    }
+    .card {
+        width: 110px;
+        padding: 0.5rem;
+        margin-left: 0.5rem;
+        margin-top: 0.5rem;
+    }
+    .card-img {
+        border-radius: 0.3rem;
+    }
+    .album-modal-content {
+        max-width: 95vw;
+        padding: 16px 8px 12px 8px;
+    }
+    .album-modal-cover {
+        width: 90px;
+        height: 90px;
+    }
+    .sidebar-right {
+        width: 200px;
+        padding: 0.5rem;
+        font-size: 0.92rem;
+    }
+    .controls {
+        width: 18%;
+        margin-right: 0.5rem;
+    }
+    .album {
+        width: 18%;
+        margin-left: 0.5rem;
+    }
+    .card-title, .card-info {
+        font-size: 0.85rem;
+    }
+    h2 {
+        font-size: 1.1rem;
+    }
+    .progress-bar-wrapper {
+        width: 458px;
+    }
+}
+
+
+/* --- Album Detail View Styles --- */
+
+.album-detail-view {
+    padding: 20px;
+    /* Add a subtle gradient or background color if needed */
+    background: linear-gradient(to bottom, #2a2a2a, #121212 300px); /* Example gradient */
+    color: #b3b3b3; /* Default text color */
+    height: 100%; /* Ensure it takes full height */
+    overflow-y: auto; /* Allow scrolling if content exceeds height */
+}
+
+.album-detail-header {
+    display: flex;
+    align-items: flex-end; /* Align items to the bottom */
+    margin-bottom: 24px;
+    padding-top: 40px; /* Add padding to push content down */
+}
+
+.album-detail-cover {
+    width: 232px; /* Match image size */
+    height: 232px;
+    margin-right: 24px;
+    box-shadow: 0 4px 60px rgba(0, 0, 0, 0.5); /* Add shadow like Spotify */
+    object-fit: cover;
+}
+
+.album-detail-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* Align text to bottom */
+    flex-grow: 1;
+}
+
+.album-type {
+    font-size: 0.875rem; /* 14px */
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    color: #ffffff;
+}
+
+.album-title {
+    font-size: 4rem; /* Adjust size as needed */
+    font-weight: 900; /* Bold */
+    color: #ffffff;
+    margin-bottom: 12px;
+    line-height: 1.1; /* Adjust line height */
+    /* Handle potential overflow */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Limit to 2 lines */
+    line-clamp: 2; /* Standard property for compatibility */
+    -webkit-box-orient: vertical;
+}
+
+
+.album-meta {
+    display: flex;
+    align-items: center;
+    font-size: 0.875rem; /* 14px */
+    color: #ffffff; /* White text for meta */
+    font-weight: 400;
+}
+
+.album-meta .album-artist-name {
+    font-weight: 700; /* Bold artist name */
+}
+
+.album-meta .meta-dot {
+    margin: 0 4px;
+}
+
+.album-meta span {
+    margin-right: 4px; /* Spacing between meta items */
+}
+.album-meta span:last-child {
+    margin-right: 0;
+}
+
+.album-actions {
+    display: flex;
+    align-items: center;
+    padding: 24px 0;
+    margin-bottom: 16px;
+}
+
+.album-actions .action-play-button {
+    font-size: 56px; /* Large play button */
+    color: #1ed760; /* Spotify green */
+    margin-right: 24px;
+    cursor: pointer;
+    transition: transform 0.1s ease;
+}
+.album-actions .action-play-button:hover {
+    transform: scale(1.05);
+}
+
+
+.album-actions .action-icon {
+    font-size: 28px; /* Size for other icons */
+    color: #b3b3b3; /* Greyish color */
+    margin-right: 20px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.album-actions .action-icon:hover {
+    color: #ffffff; /* White on hover */
+}
+
+.album-actions .spacer {
+    flex-grow: 1; /* Pushes items to the right */
+}
+
+.album-actions {
+    font-size: 0.875rem;
+    margin-right: 8px;
+    color: #b3b3b3;
+}
+
+/* Removed old grid-based track list styles */
+
+
+.album-detail-header:hover .album-detail-cover {
+    box-shadow: 0 8px 80px #1ed76055;
+    transition: box-shadow 0.3s;
+}
+
+.album-detail-header .album-detail-cover {
+    transition: box-shadow 0.3s;
+}
+
+.album-title:hover {
+    color: #1ed760;
+    text-decoration: underline;
+    transition: color 0.2s;
+}
+
+.album-meta .album-artist-name:hover {
+    color: #1ed760;
+    text-decoration: underline;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.album-actions .action-play-button:hover {
+    color: #fff;
+    transform: scale(1.08);
+    transition: color 0.2s, transform 0.2s;
+}
+
+.album-actions .action-icon:hover {
+    color: #1ed760;
+    transition: color 0.2s;
+}
+
+
+.track-list { /* The table itself */
+    width: 100%;
+    border-collapse: collapse; /* Remove spacing between cells */
+    margin: 0;
+    padding: 0;
+}
+
+
+.track-list-header { /* The header row (tr) */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
+    color: #b3b3b3;
+    font-size: 0.8rem;
+    height: 36px; /* Fixed height */
+}
+
+.track-list-header th { /* Header cells (th) */
+    text-align: left;
+    padding: 0 8px; /* Padding inside header cells */
+    font-weight: 400; /* Normal weight for header text */
+    vertical-align: middle;
+}
+
+.track-list-header .header-index {
+    text-align: right;
+    width: 46px; /* Fixed width for index column + padding */
+    padding-right: 16px; /* Align number to the right */
+}
+
+
+.curr-time {
+    min-width: 40px;
+  text-align: right;
+}
+
+.track-list-header{
+    text-align: right;
+    width: 60px; /* Fixed width for duration column */
+    padding-right: 8px;
+}
+.track-list-header i {
+    font-size: 1rem;
+}
+
+
+.track-item { /* Each track row (tr) */
+    height: 56px; /* Fixed height for tracks */
+    border-radius: 4px; /* Slight rounding */
+    transition: background-color 0.2s ease;
+}
+
+.track-item:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Highlight on hover */
+}
+
+.track-item td { /* Table data cells */
+    padding: 0 8px; /* Padding inside data cells */
+    vertical-align: middle; /* Center content vertically */
+}
+
+/* First cell containing index and play icon */
+.track-index-cell { /* td */
+    position: relative; /* Needed for absolute positioning of play icon */
+    text-align: right;
+    width: 46px; /* Match header width */
+    padding-right: 16px !important; /* Ensure right alignment */
+    color: #b3b3b3;
+    font-size: 0.9rem;
+}
+
+.track-index-cell .track-index { /* span */
+    display: inline-block; /* Default state */
+    transition: opacity 0.2s ease;
+}
+
+.track-index-cell .track-play-icon { /* i */
+    display: none; /* Hidden by default */
+    position: absolute;
+    left: 50%; /* Center horizontally in the cell */
+    top: 50%;  /* Center vertically in the cell */
+    transform: translate(-50%, -50%); /* Precise centering */
+    font-size: 1.2rem; /* Adjust size */
+    color: #ffffff !important; /* White play icon */
+    cursor: pointer;
+    transition: transform 0.1s ease, opacity 0.2s ease;
+    z-index: 1; /* Ensure icon is clickable */
+    }
+.track-index-cell .track-play-icon:hover {
+     transform: translate(-50%, -50%) scale(1.1); /* Grow effect on hover */
+}
+
+
+/* Hover effect on the ROW (.track-item): Hide index, show play icon */
+.track-item:hover .track-index-cell .track-index {
+    opacity: 0;
+}
+
+.track-item:hover .track-index-cell .album-track-play-icon  {
+    display: block; /* Show the icon */
+    opacity: 1; /* Make it visible */
+}
+
+.track-index-cell .album-track-play-icon :hover {
+    transform: translate(-50%, -50%) scale(1.1); /* Grow effect on hover */
+}
+
+
+/* Hover effect on the ROW (.track-item): Hide index, show play icon */
+.track-item:hover .track-index-cell .track-index {
+   opacity: 0;
+}
+
+.track-item:hover .track-index-cell .album-track-play-icon  {
+   display: block; /* Show the icon */
+   opacity: 1; /* Make it visible */
+}
+
+.track-index-cell .album-track-play-icon {
+    display: none;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.2rem;
+  color: #ffffff !important;
+  cursor: pointer;
+  transition:
+transform 0.1s ease, opacity 0.2s ease;
+  z-index: 1;
+}
+
+.track-title-artist-album { /* td */
+    overflow: hidden; /* Prevent text overflow */
+    align-items: center;
+}
+
+.track-title-artist { /* td */
+    overflow: hidden; /* Prevent text overflow */
+    display: flex;  
+    align-items: center;
+    margin-top: 8px;
+}
+
+.track-title { /* span */
+    color: #ffffff; /* White title */
+    font-weight: 400;
+    font-size: 1rem;
+    display: block; /* Ensure it takes full width */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.track-artist { /* span */
+    font-size: 0.875rem;
+    color: #b3b3b3;
+    display: block; /* Ensure it takes full width */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/* --- Bootstrap-like Spotify Progress Bar --- */
+.progress-bar-wrapper {
+    flex: 1 1 0;
+    display: flex;
+    align-items: center;
+    height: 12px;
+    min-width: 80px;
+    max-width: 626px;
+    margin: 0 0.5rem;
+}
+
+.progress-bar-bg {
+    width: 100%;
+    height: 4px;
+    background: #444;
+    border-radius: 3px;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 4px;
+    background: transparent;
+    accent-color: #1ed760;
+    border-radius: 3px;
+    outline: none;
+    appearance: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    margin: 0;
+    padding: 0;
+    z-index: 2;
+    cursor: pointer;
+}
+
+.progress-bar::-webkit-slider-thumb {
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #1ed760;
+    box-shadow: 0 0 4px #1ed76088;
+    border: none;
+    cursor: pointer;
+}
+.progress-bar::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    opacity: 0;
+}
+.progress-bar:hover::-moz-range-thumb {
+    opacity: 1;
+    background: #fff;
+}
+
+.progress-bar::-webkit-slider-runnable-track {
+    background-color: #444;
+    border-radius: 3px;
+    height: 6px;
+}
+.progress-bar::-ms-fill-lower {
+    background: #1ed760;
+    border-radius: 3px;
+}
+.progress-bar::-ms-fill-upper {
+    background: #444;
+    border-radius: 3px;
+}
+.progress-bar::-ms-thumb {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #1ed760;
+    border: none;
+    cursor: pointer;
+}
+.progress-bar:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.progress-bar1-wrapper {
+    flex: 1 1 0;
+    display: flex;
+    align-items: center;
+    height: 12px;
+    min-width: 80px;
+    max-width: 120px;
+    margin: 0 0.5rem;
+}
+
+.progress-bar1-bg {
+    width: 100%;
+    height: 4px;
+    background: #444;
+    border-radius: 3px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    /* Remove background here, handled by JS for dynamic fill */
+}
+
+.progress-bar1 {
+    width: 100%;
+    height: 4px;
+    background: transparent;
+    accent-color: #fff;
+    border-radius: 3px;
+    outline: none;
+    appearance: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    margin: 0;
+    padding: 0;
+    z-index: 2;
+    cursor: pointer;
+}
+
+.progress-bar1::-webkit-slider-thumb {
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #1ed760;
+    box-shadow: 0 0 4px #1ed76088;
+    border: none;
+    cursor: pointer;
+}
+.progress-bar1::-webkit-slider-thumb:hover {
+    background: #fff;
+}
+.progress-bar1::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    opacity: 0;
+}
+.progress-bar1:hover::-moz-range-thumb {
+    opacity: 1;
+    background: #fff;
+}
+.progress-bar1::-webkit-slider-runnable-track {
+    background-color: #444;
+    border-radius: 3px;
+    height: 6px;
+}
+.progress-bar1::-ms-fill-lower {
+    background: #1ed760;
+    border-radius: 3px;
+}
+.progress-bar1::-ms-fill-upper {
+    background: #444;
+    border-radius: 3px;
+}
+.progress-bar1::-ms-thumb {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #1ed760;
+    border: none;
+    cursor: pointer;
+}
+.progress-bar1:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* --- Login Modal Styles --- */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    transition: opacity 0.3s;
+}
+.modal-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+.modal-content {
+    background: #fff;
+    color: #1d1d1f;
+    border-radius: 18px;
+    padding: 40px;
+    max-width: 420px;
+    width: 90%;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.close-button {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    line-height: 0;
+}
+.close-button svg {
+    display: block;
+}
+.modal-logo-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px auto;
+    width: 72px;
+    height: 72px;
+    border-radius: 18px;
+}
+.modal-logo-icon img,
+.modal-logo-icon i {
+    font-size: 44px;
+    color: #ff3b30;
+    width: 44px;
+    height: 44px;
+    display: block;
+    margin: auto;
+}
+.modal-content h2 {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #1d1d1f;
+}
+.modal-subtitle {
+    font-size: 17px;
+    color: #6e6e6e;
+    margin-bottom: 30px;
+    line-height: 1.4;
+}
+.modal-input {
+    width: calc(100% - 40px);
+    padding: 12px 20px;
+    margin-bottom: 30px;
+    border: 1px solid #d2d2d7;
+    border-radius: 12px;
+    font-size: 17px;
+    box-sizing: border-box;
+}
+.modal-input::placeholder {
+    color: #86868b;
+}
+.privacy-info {
+    display: flex;
+    align-items: flex-start;
+    text-align: left;
+    margin-bottom: 30px;
+    gap: 10px;
+}
+.privacy-icon-fa {
+    font-size: 18px;
+    color: #6e6e6e;
+    margin-top: 4px;
+    flex-shrink: 0;
+    width: 24px;
+    text-align: center;
+}
+.privacy-text {
+    font-size: 12px;
+    color: #6e6e6e;
+    line-height: 1.5;
+    margin: 0;
+}
+.privacy-text a {
+    color: #0066cc;
+    text-decoration: none;
+}
+.privacy-text a:hover {
+    text-decoration: underline;
+}
+.modal-continue-button {
+    background: #ff3b30;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 30px;
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.2s;
+}
+.modal-continue-button:hover {
+    background: #e03025;
+}
+#modal-dynamic-content h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #1d1d1f;
+}
+#modal-dynamic-content .modal-subtitle {
+    font-size: 1.1rem;
+    color: #6e6e6e;
+    margin-bottom: 24px;
+}
+.modal-password-form {
+    margin-top: 16px;
+}
+.modal-password-box {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    margin: 0 auto 16px auto;
+    max-width: 370px;
+    border: 1px solid #d2d2d7;
+    border-radius: 12px;
+    background: #fff;
+    overflow: hidden;
+}
+.modal-password-box input {
+    border: none;
+    outline: none;
+    padding: 16px 16px 16px 16px;
+    font-size: 1.1rem;
+    background: #fff;
+    color: #1d1d1f;
+    border-bottom: 1px solid #d2d2d7;
+}
+.modal-password-box input:last-child {
+    border-bottom: none;
+}
+.modal-password-box input:disabled {
+    background: #f5f5f7;
+}
+.modal-password-box .modal-password-row {
+    display: flex;
+    align-items: center;
+    border-top: 1px solid #d2d2d7;
+}
+.modal-password-box .modal-password-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 16px;
+    font-size: 1.1rem;
+    background: #fff;
+    color: #1d1d1f;
+}
+.modal-password-box .modal-password-arrow {
+    background: none;
+    border: none;
+    outline: none;
+    color: #ff3b30;
+    font-size: 1.5rem;
+    padding: 0 18px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.modal-back-arrow {
+    background: none;
+    border: none;
+    color: #1d1d1f;
+    font-size: 1.5rem;
+    position: absolute;
+    left: 18px;
+    top: 18px;
+    cursor: pointer;
+    z-index: 2;
+    padding: 4px 8px;
+    border-radius: 50%;
+    transition: background 0.2s;
+}
+.modal-back-arrow:hover {
+    background: #f5f5f7;
+}
+.modal-password-error {
+    background: rgb(255,242,244) !important;
+    color: #1d1d1f;
+    border-bottom: 1px solid #ff3b30 !important;
+}
+.modal-error-message {
+    background: #fff;
+    color: #1d1d1f;
+    border-radius: 10px;
+    padding: 12px 18px;
+    margin-bottom: 12px;
+    font-size: 1rem;
+    text-align: center;
+    border: 1px solid #ff3b30;
+    font-weight: 500;
+}
+
+/* --- Settings Layout --- */
+.settings-container {
+    display: flex;
+    min-height: 70vh;
+    background: #181818;
+    border-radius: 14px;
+    box-shadow: 0 2px 16px #0002;
+    margin: 32px auto;
+    max-width: 900px;
+    width: 100%;
+    overflow: hidden;
+    font-family: 'Montserrat', sans-serif;
+}
+.settings-sidebar {
+    width: 220px;
+    background: #232323;
+    padding: 32px 0 32px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border-right: 1px solid #222;
+}
+.settings-sidebar .sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 32px;
+    color: #b3b3b3;
+    font-size: 1.08rem;
+    border-left: 4px solid transparent;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+    border-radius: 0 20px 20px 0;
+}
+.settings-sidebar .sidebar-link.active,
+.settings-sidebar .sidebar-link:hover {
+    background: #181818;
+    color: #1ed760;
+    border-left: 4px solid #1ed760;
+}
+.settings-main {
+    flex: 1;
+    padding: 36px 36px 36px 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    background: #181818;
+    min-width: 0;
+}
+
+/* --- Section Headers --- */
+.settings-section {
+    background: #232323;
+    border-radius: 12px;
+    padding: 28px 24px 24px 24px;
+    margin-bottom: 0;
+    box-shadow: 0 2px 8px #0002;
+    position: relative;
+}
+.settings-section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+.settings-section-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #fff;
+}
+.settings-section-badge {
+    background: #1ed760;
+    color: #222;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 12px;
+    padding: 2px 12px;
+    margin-left: 8px;
+    display: inline-block;
+}
+.settings-section-desc {
+    color: #b3b3b3;
+    font-size: 0.98rem;
+    margin-bottom: 18px;
+}
+
+/* --- Pending Requests --- */
+.friend-request-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+.friend-request-card {
+    display: flex;
+    align-items: center;
+    background: #181818;
+    border-radius: 10px;
+    padding: 14px 18px;
+    box-shadow: 0 1px 6px #0002;
+    gap: 18px;
+    transition: box-shadow 0.2s, opacity 0.3s;
+    opacity: 1;
+    animation: fadeIn 0.4s;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(16px);}
+    to { opacity: 1; transform: translateY(0);}
+}
+.friend-request-card.hide {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+.friend-request-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #333;
+    margin-right: 12px;
+}
+.friend-request-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.friend-request-username {
+    color: #fff;
+    font-weight: 600;
+    font-size: 1.08rem;
+    margin-bottom: 2px;
+    cursor: pointer;
+}
+.friend-request-mutual {
+    color: #b3b3b3;
+    font-size: 0.93rem;
+}
+.friend-request-actions {
+    display: flex;
+    gap: 10px;
+}
+.friend-request-btn {
+    border: none;
+    border-radius: 8px;
+    padding: 7px 18px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, box-shadow 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.friend-request-btn.accept {
+    background: #1ed760;
+    color: #222;
+}
+.friend-request-btn.accept:hover {
+    background: #19b84a;
+    box-shadow: 0 2px 8px #1ed76044;
+}
+.friend-request-btn.reject {
+    background: #ff3b30;
+    color: #fff;
+}
+.friend-request-btn.reject:hover {
+    background: #d32f2f;
+    box-shadow: 0 2px 8px #ff3b3044;
+}
+
+/* --- Friends List --- */
+.friends-list-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+}
+.friends-list-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #fff;
+}
+.friends-list-search {
+    background: #181818;
+    border: 1px solid #444;
+    border-radius: 8px;
+    padding: 7px 14px;
+    color: #fff;
+    font-size: 1rem;
+    outline: none;
+    min-width: 180px;
+    transition: border 0.2s;
+}
+.friends-list-search:focus {
+    border: 1.5px solid #1ed760;
+}
+.friends-list-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+}
+.friend-card {
+    background: #181818;
+    border-radius: 10px;
+    box-shadow: 0 1px 6px #0002;
+    padding: 16px 18px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-width: 260px;
+    flex: 1 1 260px;
+    margin-bottom: 0;
+    transition: box-shadow 0.2s;
+}
+.friend-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #333;
+}
+.friend-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.friend-username {
+    color: #fff;
+    font-weight: 600;
+    font-size: 1.05rem;
+    margin-bottom: 2px;
+    cursor: pointer;
+    text-decoration: none;
+}
+.friend-last-active {
+    color: #b3b3b3;
+    font-size: 0.93rem;
+}
+.friend-actions {
+    display: flex;
+    gap: 8px;
+}
+.friend-btn {
+    border: none;
+    border-radius: 8px;
+    padding: 7px 14px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, box-shadow 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.friend-btn.message {
+    background: #2196f3;
+    color: #fff;
+}
+.friend-btn.message:hover {
+    background: #1976d2;
+    box-shadow: 0 2px 8px #2196f344;
+}
+.friend-btn.block {
+    background-color: #e53e3e; /* Red */
+    border-color: #e53e3e;
+    color: #fff;
+}
+.friend-btn.block:hover {
+    background-color: #ff423881;
+    border-color: #ff3a308e;
+    box-shadow: 0 2px 8px #ff3b3044;
+}
+
+
+
+
+/* --- Blocked Users --- */
+.blocked-section-desc {
+    color: #b3b3b3;
+    font-size: 0.98rem;
+    margin-bottom: 18px;
+}
+.blocked-list-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+}
+.blocked-list-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #fff;
+}
+.blocked-list-search {
+    background: #181818;
+    border: 1px solid #444;
+    border-radius: 8px;
+    padding: 7px 14px;
+    color: #fff;
+    font-size: 1rem;
+    outline: none;
+    min-width: 180px;
+    transition: border 0.2s;
+}
+.blocked-list-search:focus {
+    border: 1.5px solid #1ed760;
+}
+.blocked-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+.blocked-card {
+    background: #181818;
+    border-radius: 10px;
+    box-shadow: 0 1px 6px #0002;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-width: 220px;
+    margin-bottom: 0;
+    transition: box-shadow 0.2s;
+}
+.blocked-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #333;
+}
+.blocked-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.blocked-username {
+    color: #fff;
+    font-weight: 600;
+    font-size: 1.01rem;
+    margin-bottom: 2px;
+}
+.blocked-date {
+    color: #b3b3b3;
+    font-size: 0.93rem;
+}
+.blocked-actions {
+    display: flex;
+    gap: 8px;
+}
+.blocked-btn {
+    border: none;
+    border-radius: 8px;
+    padding: 7px 14px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, box-shadow 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #2196f3;
+    color: #fff;
+}
+.blocked-btn:hover {
+    background: #1976d2;
+    box-shadow: 0 2px 8px #2196f344;
+}
+
+/* --- Empty States --- */
+.empty-state {
+    text-align: center;
+    color: #b3b3b3;
+    padding: 32px 0;
+    font-size: 1.1rem;
+}
+.empty-state-illustration {
+    font-size: 3rem;
+    margin-bottom: 12px;
+    color: #444;
+}
+
+/* --- Toast Notification --- */
+.toast {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    background: #232323;
+    color: #fff;
+    padding: 14px 28px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px #0008;
+    font-size: 1rem;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+.toast.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* --- Modal for Confirmations --- */
+.modal-backdrop {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 9998;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.modal-dialog {
+    background: #232323;
+    color: #fff;
+    border-radius: 14px;
+    padding: 32px 28px;
+    min-width: 320px;
+    max-width: 95vw;
+    box-shadow: 0 2px 16px #000a;
+    text-align: center;
+}
+.modal-dialog .modal-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 18px;
+}
+.modal-dialog .modal-actions {
+    display: flex;
+    gap: 18px;
+    justify-content: center;
+    margin-top: 18px;
+}
+.modal-dialog .modal-btn {
+    border: none;
+    border-radius: 8px;
+    padding: 8px 22px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+.modal-dialog .modal-btn.confirm {
+    background: #1ed760;
+    color: #222;
+}
+.modal-dialog .modal-btn.confirm:hover {
+    background: #19b84a;
+}
+.modal-dialog .modal-btn.cancel {
+    background: #444;
+    color: #fff;
+}
+.modal-dialog .modal-btn.cancel:hover {
+    background: #232323;
+}
+
+/* --- Micro-interactions --- */
+.friend-request-btn,
+.friend-btn,
+.blocked-btn,
+.modal-btn {
+    box-shadow: 0 1px 4px #0002;
+}
+.friend-request-btn:active,
+.friend-btn:active,
+.blocked-btn:active,
+.modal-btn:active {
+    transform: scale(0.97);
+}
+
+/* --- Responsive (Mobile) --- */
+@media (max-width: 700px) {
+    .settings-container {
+        flex-direction: column;
+        min-width: 0;
+        max-width: 100vw;
+        margin: 0;
+        border-radius: 0;
+        box-shadow: none;
+    }
+    .settings-sidebar {
+        width: 100%;
+        flex-direction: row;
+        border-right: none;
+        border-bottom: 1px solid #222;
+        padding: 0;
+        overflow-x: auto;
+        gap: 0;
+    }
+    .settings-sidebar .sidebar-link {
+        flex: 1 1 0;
+        justify-content: center;
+        border-radius: 0;
+        border-left: none;
+        border-bottom: 4px solid transparent;
+        padding: 16px 0;
+        font-size: 1.05rem;
+    }
+    .settings-sidebar .sidebar-link.active,
+    .settings-sidebar .sidebar-link:hover {
+        border-left: none;
+        border-bottom: 4px solid #1ed760;
+        background: #181818;
+    }
+    .settings-main {
+        padding: 18px 6px 18px 6px;
+    }
+    .settings-section {
+        padding: 18px 8px 16px 8px;
+    }
+    .friends-list-grid {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .friend-card, .blocked-card {
+        min-width: 0;
+        max-width: 100vw;
+        padding: 12px 8px;
+    }
+}
+
+/* --- Accessibility --- */
+.friend-request-btn:focus,
+.friend-btn:focus,
+.blocked-btn:focus,
+.modal-btn:focus {.friend-request-btn:focus {
+    outline-offset: 2px;
+}
+.sidebar-link:focus {
+    outline: 2px solid #1ed760;
+    outline-offset: 2px;
+}
+.settings-section [tabindex="0"]:focus {
+    outline: 2px solid #1ed760;
+    outline-offset: 2px;
+}
+
+/* --- Tooltip for icon-only buttons --- */
+[aria-label][role="button"]:hover::after,
+[aria-label][role="button"]:focus::after {
+    content: attr(aria-label);
+    position: absolute;
+    left: 50%;
+    top: 110%;
+    transform: translateX(-50%);
+    background: #232323;
+    color: #fff;
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    z-index: 10000;
+    box-shadow: 0 2px 8px #0008;
+}
+}
+/* --- End Settings Layout --- */
+
+/* Settings Modal - Profile Section */
+
+.profile-settings-content {
+    padding: 20px; /* Add some padding */
+    color: #ccc; /* Lighter text for readability */
+}
+
+.profile-settings-content .form-label {
+    color: #aaa; /* Slightly dimmer labels */
+    margin-bottom: 0.3rem;
+}
+
+.form-control {
+    background: #181818;
+    border: 1px solid #444;
+    border-radius: 8px;
+    padding: 7px 14px;
+    color: #fff;
+    font-size: 1rem;
+    outline: none;
+    min-width: 180px;
+    transition: border 0.2s;
+}
+.form-control:focus {
+    border: 1.5px solid #0ff;
+}
+
+.profile-settings-content .form-control {
+    background-color: #333;
+    border: 1px solid #555;
+    color: #fff;
+    font-size: 0.9rem; /* Slightly smaller font */
+}
+
+.profile-settings-content .form-control:focus {
+    background-color: #444;
+    border-color: #777;
+    color: #fff;
+    box-shadow: none; /* Remove default bootstrap focus glow */
+}
+
+
+
+.profile-settings-content .btn-outline-secondary {
+    background-color: #1a73e8;
+    border-color: #1a73e8;
+    color: white;
+}
+.profile-settings-content .btn-outline-secondary:hover {
+    background-color: #1557b0;
+    border-color: #1557b0;
+    color: #fff;
+}
+
+.profile-settings-content .btn-success {
+    background-color: #1db954; /* Spotify green */
+    border-color: #1db954;
+}
+.profile-settings-content .btn-success:hover {
+    background-color: #1ed760;
+    border-color: #1ed760;
+}
+
+.profile-settings-content .btn-danger {
+    background-color: #e53e3e; /* Red */
+    border-color: #e53e3e;
+}
+.profile-settings-content .btn-danger:hover {
+    background-color: #fc8181;
+    border-color: #fc8181;
+}
+
+.btn-danger {
+    background-color: #e53e3e; /* Red */
+    border-color: #e53e3e;
+}
+.btn-danger:hover {
+    background-color: #fc8181;
+    border-color: #fc8181;
+}
+
+.btn-primary {
+    background-color: #1a73e8;
+    border-color: #1a73e8;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #1557b0;
+    border-color: #1557b0;
+}
+
+#block-user-btn{
+    color: white;
+}
+
+
+/* Profile Settings Button Colors */
+.profile-settings-content .btn-primary {
+    background-color: #1a73e8;
+    border-color: #1a73e8;
+    color: white;
+}
+
+.profile-settings-content .btn-primary:hover {
+    background-color: #1557b0;
+    border-color: #1557b0;
+}
+
+.profile-settings-content .btn-success {
+    background-color: #1ed760;
+    border-color: #1ed760;
+}
+
+.profile-settings-content .btn-success:hover {
+    background-color: #1db954;
+    border-color: #1db954;
+}
+
+#profile-image-display:hover + #profile-image-edit-overlay,
+#profile-image-edit-overlay:hover {
+    opacity: 1 !important; /* Use !important to override inline style if needed */
+}
+
+#profile-image-url-preview {
+    margin-top: 5px;
+}
+
+#username-display-group .fw-bold {
+    color: #fff; /* Make username stand out */
+    font-size: 1.1rem;
+}
+
+#username-display-group .btn {
+    margin-left: 10px; /* Space between username and edit button */
+}
+
+/* Ensure Bootstrap classes are available if not globally linked */
+/* Basic Bootstrap grid/flex utilities might be needed if not present */
+.d-flex { display: flex !important; }
+.align-items-center { align-items: center !important; }
+.justify-content-center { justify-content: center !important; }
+.position-relative { position: relative !important; }
+.position-absolute { position: absolute !important; }
+.top-0 { top: 0 !important; }
+.start-0 { left: 0 !important; } /* Assuming LTR */
+.w-100 { width: 100% !important; }
+.h-100 { height: 100% !important; }
+.me-2 { margin-right: 0.5rem !important; } /* Assuming LTR */
+.me-3 { margin-right: 1rem !important; } /* Assuming LTR */
+.mb-1 { margin-bottom: 0.25rem !important; }
+.mb-2 { margin-bottom: 0.5rem !important; }
+.mb-3 { margin-bottom: 1rem !important; }
+.mb-4 { margin-bottom: 1.5rem !important; }
+.p-3 { padding: 1rem !important; }
+.flex-grow-1 { flex-grow: 1 !important; }
+.rounded-circle { border-radius: 50% !important; }
+.img-thumbnail { padding: 0.25rem; background-color: #444; border: 1px solid #555; border-radius: 0.25rem; max-width: 100%; height: auto; }
+.bg-dark { background-color: #212529 !important; } /* Example dark color */
+.bg-opacity-50 { --bs-bg-opacity: 0.5; background-color: rgba(var(--bs-dark-rgb), var(--bs-bg-opacity)) !important; } /* Adjust color if needed */
+.text-white { color: #fff !important; }
+.fs-4 { font-size: 1.5rem !important; }
+.fw-bold { font-weight: 700 !important; }
+.input-group { position: relative; display: flex; flex-wrap: wrap; align-items: stretch; width: 100%; }
+.input-group > .form-control { position: relative; flex: 1 1 auto; width: 1%; min-width: 0; }
+.input-group > .form-control:focus { z-index: 3; }
+.input-group .btn { position: relative; z-index: 2; }
+.input-group .btn:focus { z-index: 3; }
+.input-group > .form-control:not(:last-child) { border-top-right-radius: 0; border-bottom-right-radius: 0; }
+.input-group > :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu) { border-top-right-radius: 0; border-bottom-right-radius: 0; }
+.input-group > .form-control:not(:first-child) { border-top-left-radius: 0; border-bottom-left-radius: 0; }
+.input-group > :not(:first-child):not(.dropdown-toggle):not(.dropdown-menu) { border-top-left-radius: 0; border-bottom-left-radius: 0; }
+.input-group .btn { margin-left: -1px; } /* Adjust based on border */
+.form-control-sm { min-height: calc(1.5em + 0.5rem + 2px); padding: 0.25rem 0.5rem; font-size: .875rem; border-radius: 0.2rem; }
+.btn-sm { padding: 0.25rem 0.5rem; font-size: .875rem; border-radius: 0.2rem; }
+
+.sidebar-playlist-item {
+    transition: background-color 0.3s ease;
+}
+.sidebar-playlist-item:hover {
+    background-color: #333; /* Adjust color as needed */
+}
+
+
+
+/* Playlist track remove icon */
+.track-remove-cell {
+    width: 38px;
+    text-align: center;
+    position: relative;
+    padding: 0 !important;
+}
+
+.remove-track-icon {
+    display: none;
+    color: #b3b3b3;
+    font-size: 1.3rem;
+    cursor: pointer;
+    vertical-align: middle;
+    transition: color 0.2s;
+}
+
+.track-item:hover .remove-track-icon {
+    display: inline-block;
+}
+
+.remove-track-icon:hover {
+    color: #ff5a5a;
+}
+
+
+/* Confirmation Modal Styles */
+.confirmation-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.confirmation-modal .modal-content {
+    background: #282828;
+    padding: 24px;
+    border-radius: 8px;
+    text-align: center;
+    color: white;
+    max-width: 400px;
+    width: 90%;
+}
+
+.confirmation-modal button {
+    transition: transform 0.2s;
+}
+
+.confirmation-modal button:hover {
+    transform: scale(1.05);
+}
+
+/* Search Results Dropdown */
+.search-results-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #282828;
+    border-radius: 4px;
+    margin-top: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    max-height: 70vh;
+    overflow-y: auto;
+    display: none;
+}
+
+.search-section {
+    padding: 12px;
+}
+
+.search-section-title {
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    padding: 0 8px;
+}
+
+.search-result-item {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.search-result-item:hover {
+    background-color: #333;
+}
+
+.search-result-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    margin-right: 12px;
+    object-fit: cover;
+}
+
+.search-result-info {
+    flex-grow: 1;
+}
+
+.search-result-title {
+    color: #fff;
+    font-size: 0.9rem;
+    margin-bottom: 4px;
+}
+
+.search-result-artist {
+    color: #b3b3b3;
+    font-size: 0.8rem;
+}
+
+.search-result-play {
+    opacity: 0;
+    transition: opacity 0.2s;
+    color: #1ed760;
+    font-size: 1.5rem;
+}
+
+.search-result-item:hover .search-result-play {
+    opacity: 1;
+}
+
+/* Custom scrollbar for search results */
+.search-results-dropdown::-webkit-scrollbar {
+    width: 8px;
+}
+
+.search-results-dropdown::-webkit-scrollbar-thumb {
+    background: #666;
+    border-radius: 4px;
+}
+
+.search-results-dropdown::-webkit-scrollbar-track {
+    background: #333;
+}
+
+/* Search Results Styles */
+.search-results {
+    padding: 20px;
+}
+
+.search-section {
+    margin-bottom: 40px;
+}
+
+.search-section h3 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+.search-albums {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.search-tracks {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.search-track-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.search-track-item:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.search-track-item img {
+    width: 50px;
+    height: 50px;
+    border-radius: 4px;
+    margin-right: 15px;
+}
+
+.track-info {
+    flex: 1;
+}
+
+.track-info .track-title {
+    color: #fff;
+    font-size: 1rem;
+    margin: 0;
+}
+
+.track-info .track-artist {
+    color: #b3b3b3;
+    font-size: 0.9rem;
+    margin: 4px 0 0 0;
+}
+
+.no-results {
+    text-align: center;
+    padding: 40px;
+    color: #b3b3b3;
+}
+
+/* Lyrics View Styling */
+.lyrics-view {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+}
+
+.lyrics-header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+}
+
+.lyrics-header h2 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+.lyrics-artist {
+    color: #1ed760;
+    font-size: 1.2em;
+}
+
+.lyrics-content {
+    font-size: 1.2em;
+    line-height: 2;
+    color: #fff;
+}
+
+.lyrics-content pre {
+    white-space: pre-wrap;
+    font-family: inherit;
+}
+
+/* Style individual lyrics lines */
+.lyrics-content p {
+    padding: 8px 0;
+    transition: all 0.3s ease;
+    cursor: default;
+    position: relative;
+}
+
+.lyrics-content p:hover {
+    color: #1ed760;
+    transform: translateX(10px);
+}
+
+.lyrics-content p::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #1ed760;
+    transition: width 0.3s ease;
+}
+
+.lyrics-content p:hover::after {
+    width: 100%;
+}
+
+/* Loading and placeholder states */
+.lyrics-placeholder {
+    text-align: center;
+    padding: 40px;
+    color: #b3b3b3;
+}
+
+.lyrics-placeholder p {
+    font-size: 1.1em;
+    line-height: 1.6;
+}
+
+.lyrics-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: #b3b3b3;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.lyrics-close-btn:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(20px); }
+}
+
+#toast-message {
+    transition: all 0.3s ease;
+    background: #333;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    z-index: 2000;
+    font-size: 15px;
+}
+
+/* Friend Activity Sidebar Styles */
+.friend-activity-list {
+    padding: 0 10px;
+    overflow-y: auto;
+    height: calc(100vh - 160px);
+}
+
+.friend-activity {
+    padding: 10px 0;
+    border-bottom: 1px solid #282828;
+}
+
+.friend-activity-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.friend-avatar {
+    position: relative;
+    width: 40px;
+    height: 40px;
+}
+
+.friend-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.status-dot {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid #181818;
+}
+
+.status-dot.online {
+    background-color: #1ed760;
+}
+
+.status-dot.offline {
+    background-color: #888;
+}
+
+.friend-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.friend-name {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: #fff;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.friend-status {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: #b3b3b3;
+}
+
+.friend-status i {
+    font-size: 14px;
+}
+
+.no-friends-message,
+.error-message {
+    color: #888;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+/* Scrollbar styling for the friend list */
+.friend-activity-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.friend-activity-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.friend-activity-list::-webkit-scrollbar-thumb {
+    background: #666;
+    border-radius: 4px;
+}
+
+.friend-activity-list::-webkit-scrollbar-thumb:hover {
+    background: #888;
+}
+
+.bi-x-octagon{
+    color: #c2c2c2;
+    font-size: 1.55rem;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.bi-x-octagon:hover{
+    color: #ff3b30;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.nav-option {
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+.nav-option:hover,
+.nav-option.active {
+    opacity: 1;
+}
+
+.nav-option.active i,
+.nav-option.active a {
+    color: #fff !important;
+    opacity: 1;
+}
+
+.nav-arrow.active {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+.nav-arrow.active i {
+    color: #fff;
+    opacity: 1;
+}
+
+

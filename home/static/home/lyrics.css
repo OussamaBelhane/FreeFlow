@@ -1,0 +1,31 @@
+.lyrics-view {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.lyrics-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.lyrics-header h2 {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+.lyrics-artist {
+    color: #b3b3b3;
+    font-size: 1.1em;
+}
+
+.lyrics-content {
+    font-size: 1.2em;
+    line-height: 1.8;
+}
+
+.lyrics-placeholder {
+    text-align: center;
+    padding: 40px;
+    color: #b3b3b3;
+}

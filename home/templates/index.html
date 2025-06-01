@@ -1,0 +1,830 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'home/style.css' %}">
+    <link rel="icon" href="{% static 'home/assets/logo.png' %}">
+    <title>FreeFlow</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Add Bootstrap Icons CDN below -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script src="{% static 'home/script.js' %}" defer></script>
+    <script src="{% static 'home/playlist.js' %}" defer></script>
+    <script src="{% static 'home/player.js' %}" defer></script>
+    <script src="{% static 'home/artists.js' %}" defer></script>
+    <script src="{% static 'home/listeningto.js' %}" defer></script>
+    <link rel="stylesheet" href="{% static 'home/style.css' %}">
+    <link rel="stylesheet" href="{% static 'home/artists.css' %}">
+</head>
+
+
+<body>
+    <header class="top-bar">
+        <div class="top-bar-left">
+            <img src="{% static 'home/assets/logo.png' %}" alt="FreeFlow Logo" style="height: 32px;">
+        </div>
+        <div class="top-bar-center">
+            <div class="nav-arrow"> <!-- Home Icon Wrapper -->
+                <i class="fa-solid fa-house"></i>
+            </div>
+            <div class="search-bar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="What do you want to play?">
+            </div>
+        </div>
+        <div class="top-bar-options">
+            <a href="http://localhost:3000/" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-arrow-down" id="download-icon" style="cursor:pointer"></i></a>
+            <i class="fa-solid fa-bell" id="notification-icon" style="cursor:pointer"></i>
+            <i class="fa-solid fa-user-group fa-user-group-top" id="toggle-right-sidebar" ></i>
+            {% if is_authenticated %}
+                <i class="fa-regular fa-user nav-item"
+                style="background-color: maroon; margin-left: 8px; cursor:pointer;"
+                id="user-profile-trigger"
+                {% if user_icon_url %}
+                    data-icon-url="{{ user_icon_url }}"
+                {% endif %}
+                ></i>
+                {% if is_superuser %}
+                    <a href="/dashboard/" class="badge dark-badge" id="dashboard-button" style="margin-left: 8px; display: inline-flex; align-items: center;">
+                        <i class="fa-solid fa-gauge-high" style="margin-right: 4px;"></i>Dashboard
+                    </a>
+                {% endif %}
+            {% else %}
+                <div id="auth-section" class="auth-options">
+                    <button class="login-button badge" id="login-button-trigger"><p class="login-button-p">Sign In</p></button>
+                </div>
+            {% endif %}
+        </div>
+        <!-- User Profile Dropdown -->
+        {% if is_authenticated %}
+        <div id="user-profile-dropdown" class="user-profile-dropdown" style="display:none; position:absolute; right:20px; top:60px; background:#222; color:#fff; border-radius:10px; box-shadow:0 2px 8px #0008; min-width:260px; z-index:1000; padding:18px 20px 14px 20px;">
+            <div style="margin-bottom:10px;">
+                <span style="font-size:13px; color:#aaa;">User ID</span>
+                <div id="user-id-copy" style="font-weight:bold; font-size:16px; cursor:pointer; display:flex; align-items:center; gap:6px;">
+                    <span id="user-id-value">{{ user_id }}</span>
+                    <i class="fa-regular fa-copy" style="font-size:14px;"></i>
+                </div>
+            </div>
+            <div style="margin-bottom:10px;">
+                <span style="font-size:13px; color:#aaa;">Listening to</span>
+                <div style="display:flex; align-items:center; gap:8px; margin-top:2px;">
+                    <span id="listening-to-value">{{ listeningto|default:"Nothing" }}</span>
+                    <button id="listening-on-btn" class="badge" style="padding:2px 10px; font-size:12px; background:#1ed760; color:#222; border:none; border-radius:6px;">On</button>
+                    <button id="listening-off-btn" class="badge" style="padding:2px 10px; font-size:12px; background:#444; color:#fff; border:none; border-radius:6px;">Off</button>
+                </div>
+            </div>
+            <div style="margin-bottom:10px;">
+                <button id="settings-btn" class="badge" style="width:100%; background:#333; color:#fff; border:none; border-radius:6px; margin-bottom:6px;">
+                    <i class="fa-solid fa-gear" style="margin-right:6px;"></i>Settings
+                </button>
+            </div>
+            <div>
+                <form id="logout-form" method="POST" action="{% url 'logout' %}" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" id="logout-btn" class="badge" style="width:100%; background:#b00; color:#fff; border:none; border-radius:6px;">
+                        <i class="fa-solid fa-arrow-right-from-bracket" style="margin-right:6px;"></i>Logout
+                    </button>
+                </form>
+            </div>
+        </div>
+        <!-- Settings Modal -->
+        <div id="settings-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:#000a; z-index:3000; align-items:center; justify-content:center;">
+            <div class="settings-container">
+                <nav class="settings-sidebar">
+                    <div class="sidebar-link active" id="sidebar-profile">
+                        <i class="bi bi-person"></i> Profile
+                    </div>
+                    <div class="sidebar-link" id="sidebar-friends">
+                        <i class="bi bi-people"></i> Friends
+                    </div>
+                    <div class="sidebar-link" id="sidebar-blocking">
+                        <i class="bi bi-person-x"></i> Blocking
+                    </div>
+                </nav>
+                <main class="settings-main">
+                    <!-- Profile Section -->
+                    <section class="settings-section" id="profile-section" style="display:block;">
+                        <div class="settings-section-header">
+                            <span class="settings-section-title">Profile Settings</span>
+                        </div>
+                        <div class="profile-settings-content p-3">
+                            <!-- Profile Image Editing -->
+                            <div class="mb-4 d-flex align-items-center">
+                                <div class="position-relative me-3">
+                                    <img id="profile-image-display" src="{{ user_icon_url|default:"/static/home/assets/logo.png" }}" alt="Profile Picture" class="rounded-circle" style="width: 100px; height: 100px; object-fit: cover; cursor: pointer;">
+                                    <div id="profile-image-edit-overlay" class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center bg-dark bg-opacity-50 rounded-circle" style="cursor: pointer; opacity: 0; transition: opacity 0.2s;">
+                                        <i class="bi bi-pencil-fill text-white fs-4"></i>
+                                    </div>
+                                </div>
+                                <div id="profile-image-url-input-group" class="flex-grow-1" style="display: none; flex-direction: row-reverse; align-items: center;">
+                                    <div class="input-group mb-2" style="height: 42px;">
+                                        <input type="url" class="form-control form-control-sm" id="profile-image-url" placeholder="Enter image URL">
+                                        <button class="btn btn-sm btn-primary" type="button" id="profile-image-preview-btn" style="display: flex;flex-direction: row-reverse;align-items: center;">Preview</button>
+                                        <button class="btn btn-sm btn-success" type="button" id="profile-image-save-btn">Save</button>
+                                        <button class="btn btn-sm btn-danger" type="button" id="profile-image-cancel-btn">Cancel</button>
+                                    </div>
+                                    <img id="profile-image-preview" src="#" alt="URL Preview" class="img-thumbnail" style="max-width: 60px; max-height: 60px; display: none;">
+                                </div>
+                            </div>
+
+                            <!-- Username Editing -->
+                            <div class="mb-3">
+                                <label class="form-label small">Username</label>
+                                <div id="username-display-group" class="d-flex align-items-center">
+                                    <span id="username-display" class="me-2 fw-bold">{{ user|default:"YourUsername" }}</span>
+                                    <button class="btn btn-sm btn-outline-secondary" id="username-edit-btn"><i class="bi bi-pencil"></i> Edit</button>
+                                </div>
+                                <div id="username-edit-group" class="input-group" style="display: none;">
+                                    <input type="text" class="form-control form-control-sm" id="username-input" value="{{ user|default:"YourUsername" }}">
+                                    <button class="btn btn-sm btn-success" type="button" id="username-save-btn">Save</button>
+                                    <button class="btn btn-sm btn-danger" type="button" id="username-cancel-btn">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Pending Friend Requests Section (Settings) -->
+                    <section class="settings-section" id="pending-requests-section" style="display:none;">
+                        <div class="settings-section-header">
+                            <span class="settings-section-title">Pending Friend Requests</span>
+                            <span class="settings-section-badge" id="pending-requests-badge">0</span> <!-- Badge updated by JS -->
+                        </div>
+                        <div class="friend-request-list" id="friend-request-list">
+                            <!-- Pending requests will be loaded here by JS -->
+                        </div>
+                        <div class="empty-state" id="pending-empty" style="display:block;"> <!-- Initially visible -->
+                            <div class="empty-state-illustration"><i class="bi bi-person-plus"></i></div>
+                            No pending friend requests.
+                        </div>
+                    </section>
+
+                    <!-- Friends List Section (Settings) -->
+                    <section class="settings-section" id="friends-list-section" style="display:none;">
+                        <div class="friends-list-header">
+                            <span class="friends-list-title">Your Friends</span>
+                            <input type="text" class="friends-list-search" id="friends-search" placeholder="Search friends...">
+                        </div>
+                        <div class="friends-list-grid" id="friends-list-grid">
+                            <!-- Friend cards will be loaded here by JS -->
+                        </div>
+                        <div class="empty-state" id="friends-empty" style="display:block;"> <!-- Initially visible -->
+                            <div class="empty-state-illustration"><i class="bi bi-emoji-smile"></i></div>
+                            You have no friends yet. Add some!
+                        </div>
+                    </section>
+
+                    <!-- Blocked Users Section (Settings) -->
+                    <section class="settings-section" id="blocked-users-section" style="display:none;">
+                        <div class="blocked-list-header">
+                            <span class="blocked-list-title">Blocked Users</span>
+                            <!-- Input to block a new user -->
+                            <div class="input-group input-group-sm mb-3">
+                                <input type="text" class="form-control" id="block-user-input" placeholder="Enter UserID to block">
+                                <button class="btn btn-sm btn-danger" type="button" id="block-user-btn" style="cursor:pointer">Block</button>
+                            </div>
+                        </div>
+                        <div class="blocked-section-desc">
+                            Blocked users cannot send you friend requests. Blocking someone will remove them from your friends list.
+                        </div>
+                        <div class="blocked-list" id="blocked-list">
+                            <!-- Blocked user cards will be loaded here by JS -->
+                        </div>
+                        <div class="empty-state" id="blocked-empty" style="display:block;"> <!-- Initially visible -->
+                            <div class="empty-state-illustration"><i class="bi bi-shield-slash"></i></div>
+                            You haven't blocked anyone.
+                        </div>
+                    </section>
+                </main>
+                <button id="close-settings-btn" style="position:absolute;top:18px;right:24px;background:none;border:none;color:#fff;font-size:1.6rem;cursor:pointer;z-index:10;">&times;</button>
+            </div>
+        </div>
+        <div id="toast-message" style="display:none; position:fixed; bottom:30px; right:30px; background:#222; color:#fff; padding:12px 24px; border-radius:8px; box-shadow:0 2px 8px #0008; z-index:2000; font-size:15px;"></div>
+        {% endif %}
+    </header>
+    <div class="main">
+        <div class="sidebar-left">
+            <div class="nav">
+                <div class="nav-option {% if request.path == '/' %}active{% endif %}" onclick="window.location.href='{% url 'home' %}'">
+                    <i class="fa-solid fa-house"></i>
+                    <a href="/" id="home-link">Home</a>
+                </div>
+                <div class="nav-option" id="artists-nav" onclick="document.getElementById('artists-link').click()">
+                    <i class="bi bi-person-fill"></i>
+                    <a href="#" id="artists-link">Artists</a>
+                </div>
+            </div>
+            <div class="library">
+                <div class="options">
+                    <div class="lib-option nav-option ">
+                        <i class="fa-solid fa-list"></i><!-- library -->
+                        <a href="#">Your Library</a>
+                    </div>
+                    <div class="icons">
+                        <i class="fa-solid fa-plus" id="create-playlist-btn"></i> <!-- plus symbol -->
+                    </div>
+                </div>
+                <div class="lib-box">
+    {% if has_playlists %}
+        {% for p in user_playlists %}
+        <div class="sidebar-playlist-item" onclick="window.location.href='/playlist/{{ p.0 }}/';" style="padding:10px 0; display:flex; align-items:center; gap:10px; cursor:pointer;"
+            data-playlist-id="{{ p.0 }}" data-playlist-name="{{ p.1 }}" data-playlist-cover="{{ p.2|default:'' }}">
+            <div style="width:36px; height:36px; background:#232323; border-radius:8px; display:flex; align-items:center; justify-content:center; overflow:hidden; margin-left: 5px;">
+                {% if p.2 and p.2|length > 0 %}
+                    <img src="{{ p.2 }}" style="width:100%; height:100%; object-fit:cover;">
+                {% else %}
+                    <i class="bi bi-music-note-beamed" style="font-size:1.5rem; color:#bbb;"></i>
+                {% endif %}
+            </div>
+            <span style="font-size:1rem; color:#fff;">{{ p.1 }}</span>
+        </div>
+        {% endfor %}
+        <script>
+        // Build the playlists array with proper quoting for strings
+        window.userPlaylists = [
+            {% for p in user_playlists %}
+            [
+                {{ p.0|safe }},
+                "{{ p.1|escapejs }}",
+                {% if p.2 %}
+                    "{{ p.2|escapejs }}"
+                {% else %}
+                    null
+                {% endif %}
+            ]{% if not forloop.last %},{% endif %}
+            {% endfor %}
+        ];
+        </script>
+    {% else %}
+        <div class="box"><!-- slidebar first box -->
+            <p class="box-p1">Create your first playlist</p>
+            <p class="box-p2">It's easy, we'll help you</p>
+            <button class="badge" id="create-playlist-main-btn">Create playlist</button>
+        </div>
+    {% endif %}
+</div>
+            </div>
+        </div>
+        <!-- main contain started  -->
+        <div class="main-content" id="main-content-area"> {# Added ID #}
+            <!-- Removed the old sticky header from here -->
+            <div id="home-content" {% if request.path == '/artists/' %}style="display:none"{% endif %}>
+            <div class="main-content-header">
+            <section class="upper-content">
+                {% for album in albums|slice:":3" %}
+                <div class="box1 album-link" data-album-id="{{ album.album_id }}">
+                    <img src="{{ album.image_url_or_default }}" alt="{{ album.title }}">
+                    <p>{{ album.title }}</p>
+                    <i class="fa-sharp fa-solid fa-circle-play"
+                    style="color: #1ed760;"
+                    {% with first_track=album.tracks.first %}
+                        {% if first_track %}
+                            data-track-url="{{ first_track.file_url }}"
+                            data-track-title="{{ first_track.title }}"
+                            data-artist-name="{{ first_track.artist_name }}"
+                            data-album-title="{{ album.title }}"
+                            data-cover-url="{{ album.image_url_or_default }}"
+                            data-duration="{{ first_track.duration_seconds }}"
+                        {% endif %}
+                    {% endwith %}
+                    ></i>
+                </div>
+                {% endfor %}
+            </section>
+            <section class="lower-content">
+                {% for album in albums|slice:"3:6" %}
+                <div class="box1 album-link" data-album-id="{{ album.album_id }}">
+                    <img src="{{ album.image_url_or_default }}" alt="{{ album.title }}">
+                    <p>{{ album.title }}</p>
+                    <i class="fa-sharp fa-solid fa-circle-play"
+                    style="color: #1ed760;"
+                    {% with first_track=album.tracks.first %}
+                        {% if first_track %}
+                            data-track-url="{{ first_track.file_url }}"
+                            data-track-title="{{ first_track.title }}"
+                            data-artist-name="{{ first_track.artist_name }}"
+                            data-album-title="{{ album.title }}"
+                            data-cover-url="{{ album.image_url_or_default }}"
+                            data-duration="{{ first_track.duration_seconds }}"
+                        {% endif %}
+                    {% endwith %}
+                    ></i>
+                </div>
+                {% endfor %}
+            </section>
+            </div>
+    <br>
+            <h2>Made For You </h2>
+            <div class="card-container">
+                {% for item in made_for_you_items %}
+                <div class="card">
+                    {# Assuming made_for_you_items are Tracks #}
+                    <img src="{{ item.image_url_or_default }}" alt="Track/Album Cover" class="card-img">
+                    <p class="card-title">{{ item.title }}</p>
+                    <p class="card-info">{{ item.artist_name }}</p> {# Use the helper property #}
+                    <i class="fa-sharp fa-solid fa-circle-play card-play-icon" style="color: #1ed760;"
+                    data-track-url="{{ item.file_url }}"
+                    data-track-title="{{ item.title }}"
+                    data-artist-name="{{ item.artist_name }}"
+                    data-album-title="{{ item.album.title|default:'' }}"
+                    data-cover-url="{{ item.image_url_or_default }}"
+                    data-duration="{{ item.duration_seconds }}"></i>
+                </div>
+                {% empty %}
+                <p>No items available in this section.</p>
+                {% endfor %}
+            </div>
+            <h2>Recommended for today</h2>
+            <div class="card-container" id="recommended-today-container">
+                {% for track in recommended_items %} {# Changed loop variable to track #}
+                {# Displaying track information now #}
+                <div class="card recommended-track"> {# Removed album-link class and data-album-id #}
+                    {# Displaying Track info #}
+                    <img src="{{ track.image_url_or_default }}" alt="{{ track.title }} Cover" class="card-img">
+                    <p class="card-title">{{ track.title }}</p>
+                    <p class="card-info">{{ track.artist_name }}</p> {# Display track's primary artist #}
+                    {# Play icon uses track data directly #}
+                    <i class="fa-sharp fa-solid fa-circle-play card-play-icon" style="color: #1ed760;"
+                    data-track-url="{{ track.file_url }}"
+                    data-track-title="{{ track.title }}"
+                    data-artist-name="{{ track.artist_name }}"
+                    data-album-title="{{ track.album.title|default:'' }}" {# Get album title if available #}
+                    data-cover-url="{{ track.image_url_or_default }}"
+                    data-duration="{{ track.duration_seconds|default:0 }}"></i> {# Added default for duration #}
+                </div>
+                {% empty %}
+                <p>No recommendations available today.</p>
+                {% endfor %}
+                <br><br>
+            </div>
+            <h2>recent Releases </h2>
+            <div class="card-container">
+                {% for item in recent_items %}
+                <div class="card">
+                    <img src="{{ item.image_url_or_default }}" alt="Track/Album Cover" class="card-img">
+                    <p class="card-title">{{ item.title }}</p>
+                    <p class="card-info">{{ item.artist_name }}</p> <!-- Display artist name -->
+                    <i class="fa-sharp fa-solid fa-circle-play card-play-icon" style="color: #1ed760;"
+                    data-track-url="{{ item.file_url }}"
+                    data-track-title="{{ item.title }}"
+                    data-artist-name="{{ item.artist_name }}"
+                    data-cover-url="{{ item.image_url_or_default }}"></i>
+                </div>
+                {% empty %}
+                <p>No recent listening history available.</p>
+                {% endfor %}
+            </div>
+            <br><br>
+        </div>
+        <div id="artists-content" {% if request.path != '/artists/' %}style="display:none"{% endif %}>
+            <div class="artists-header">
+                <h1>Artists</h1>
+                <div class="artists-controls">
+                    <span id="sort-artists" class="active">Sort</span>
+                    <span id="shuffle-artists">Shuffle</span>
+                    <span id="search-artists">Search</span>
+                </div>
+                <span class="artists-count" id="artists-count-display">0</span>
+            </div>
+            <!-- Add search container -->
+            <div class="artists-search-container" id="artists-search-container">
+                <div class="artists-search-box">
+                    <i class="bi bi-x artists-search-close" id="artists-search-close"></i>
+                    <div class="search-input-wrapper" style="width: 100%;">
+                        <input type="text" placeholder="Search artists..." id="artists-search-input">
+                        <span style="color: #ffffff; font-size: 0.9rem; margin-top: 8px; display: block;">Enter a name</span>
+                    </div>
+                </div>
+            </div>
+            <div class="artists-grid" id="artists-grid-container">
+                <div class="loading-spinner" id="artists-loading">Loading Artists...</div>
+            </div>
+            <div class="artist-detail-view" id="artist-detail-view" style="display:none;">
+                <div class="artist-detail-header">
+                    <button class="back-button" onclick="backToArtists()">
+                        <i class="bi bi-arrow-left"></i> Back to Artists
+                    </button>
+                    <div class="artist-info">
+                        <img class="artist-cover" id="artist-cover" src="" alt="Artist">
+                        <div class="artist-text">
+                            <h1 class="artist-name" id="artist-name"></h1>
+                            <p class="artist-bio" id="artist-bio"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="artist-tracks" id="artist-tracks"></div>
+            </div>
+            <div class="artists-bio-content" style="display:none;">
+                <div class="bio-header">
+                    <button class="back-to-artists">
+                        <i class="bi bi-arrow-left"></i> Back to artists
+                    </button>
+                    <div class="bio-main">
+                        <div class="bio-image">
+                            <img src="" alt="Artist Image">
+                        </div>
+                        <div class="bio-info">
+                            <h1 class="bio-name"></h1>
+                            <p class="bio-text"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bio-tracks"></div>
+            </div>
+        </div>
+    </div>
+        <!-- right side bar-->
+        <div class="sidebar-right">
+            <div class="right-sidebar-header">
+                <i class="fa-solid fa-user-group"></i>
+                <span style="font-size: 14px; padding-right: 10px; border-right: 1px solid #282828;">Friend Activity</span>
+                <div style="margin-left: auto;"> <!-- Push plus icon to the right -->
+                    <i class="fa-solid fa-plus" id="add-friend-btn" style="cursor: pointer; font-size: 1.1rem;" title="Add Friend"></i>
+                </div>
+            </div>
+            <div class="friend-activity-list">
+                <div class="friend-activity">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    
+    
+    <div class="music-player">
+        <div class="album" >
+            <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwallpapercave.com%2Fwp%2Fwp2552423.jpg&f=1&nofb=1&ipt=c5cced612de85751ff49d5a6cfc44439e924812520b261ea4c0f23a7c0655778" alt="." style="color: transparent; height: 50px; width: 50px;">
+            <div class="name" hidden>
+                <p class="firstword"></p>
+                <p class="secondword"></p>
+            </div>
+        </div>
+        <div class="player">
+            <div class="player-controls" style="margin-bottom: 25px;">
+                <i class="bi bi-shuffle" id="shuffle-button" style="font-size: 1.2rem;"></i>
+                <i class="bi bi-skip-start-fill" id="previous-button"></i>
+                <i class="bi bi-play-circle-fill" id="play-button" style="font-size: 2rem; margin-top: -10px; color: white;"></i>
+                <i class="bi bi-skip-end-fill" id="next-button"></i>
+                <i class="bi bi-repeat" id="repeat-button" style="font-size: 1.2rem;"></i>
+            </div>
+            <div class="playback-bar">
+                <span class="curr-time" id="current-time">-:--</span>
+                <div class="progress-bar-wrapper">
+                    <div class="progress-bar-bg">
+                        <input type="range" min="0" max="100" class="progress-bar" id="progress-bar">
+                    </div>
+                </div>
+                <span class="tot-time" id="total-time">
+                    {{ initial_player_track.formatted_duration|default:"-:--" }}
+                </span>
+            </div>
+        </div>
+        <div class="controls" style="display: flex; align-items: center; gap: 1.2rem;">
+            <i class="bi bi-music-note-list" id="lyrics-button" style="font-size: 1.3rem; color: #b3b3b3;"></i>
+            <i class="bi bi-volume-up" id="volume-button" style="font-size: 1.3rem; color: #b3b3b3;"></i>
+            <div class="progress-bar1-wrapper" style="flex: 1 1 0; min-width: 60px; max-width: 120px;">
+                <div class="progress-bar1-bg">
+                    <input type="range" min="0" max="100" value="100" class="progress-bar1" id="volume-bar">
+                </div>
+            </div>
+            <i class="bi bi-arrows-fullscreen" id="fullscreen-button" style="font-size: 1.3rem; color: #b3b3b3; margin-left: 0;"></i>
+        </div>
+    </div>
+
+    <!-- Add the audio element -->
+    {{ initial_album_id|json_script:"initial-album-id" }}
+    {{ initial_playlist_id|json_script:"initial-playlist-id" }}
+
+    <!-- Place this just before </body> -->
+    <div id="login-modal" class="modal-overlay hidden" style="display: none;">
+    <div class="modal-content" id="modal-content">
+        <button class="close-button" id="close-modal-button" aria-label="Close">
+            <svg width="28" height="28" viewBox="0 0 28 28"><circle cx="14" cy="14" r="14" fill="#f0f0f0"/><path d="M9 9l10 10M19 9L9 19" stroke="#888" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="modal-logo-icon">
+            <i class="fa-solid fa-music"></i>
+        </div>
+        <div id="modal-dynamic-content">
+            <!-- JS will fill this with email, password, or signup fields -->
+            <h2>Continue with Email</h2>
+            <div class="modal-subtitle">
+                You can sign in if you already have an account, or we'll help you create one.
+            </div>
+            <input type="email" class="modal-input" id="modal-email-input" placeholder="Email" autocomplete="email">
+            <button class="modal-continue-button" id="modal-email-continue">Continue</button>
+        </div>
+    </div>
+</div>
+
+<!-- Add Friend Modal -->
+<div id="add-friend-modal" class="modal-overlay hidden" style="display: none;">
+    <div class="modal-content" style="max-width: 420px; padding: 0; border-radius: 20px; overflow: hidden; box-shadow: 0 5px 30px rgba(0,0,0,0.5); transform: scale(0.95); opacity: 0; transition: all 0.3s ease;">
+        <div style="background: linear-gradient(135deg, #1ed760, #1db954); color: #000; padding: 25px 0 18px 0; text-align: center; position: relative;">
+            <button class="modal-close-btn" onclick="closeAddFriendModal()" style="position:absolute; top:15px; right:18px; background:none; border:none; font-size:1.5rem; color:#000; cursor:pointer; transition: transform 0.2s ease; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">&times;</button>
+            <div style="width: 70px; height: 70px; margin: 0 auto; background: rgba(0,0,0,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <i class="bi bi-person-plus-fill" style="font-size: 2.5rem; color: #000; text-shadow: 0 2px 5px rgba(0,0,0,0.1);"></i>
+            </div>
+            <h3 style="margin: 12px 0 8px 0; font-size: 1.5rem; font-weight: 700; color: #000; text-shadow: 0 1px 2px rgba(255,255,255,0.2);">Add a Friend</h3>
+            <div style="font-size: 1rem; color: rgba(0,0,0,0.8); margin: 0 20px;">Connect with friends by their unique UserID</div>
+        </div>
+        <div style="padding: 30px 32px 25px 32px; background: #121212;">
+            <div class="input-group" style="margin-bottom: 20px; position: relative;">
+                <input type="text" id="add-friend-userid-input" placeholder="Enter UserID (e.g. username12abc)" 
+                style="background: rgba(30,30,30,0.8); color: #fff; border: 1px solid #333; border-radius: 10px; 
+                padding: 12px 18px; font-size: 1rem; width: 100%; transition: all 0.3s ease; outline: none;
+                box-shadow: inset 0 1px 2px rgba(0,0,0,0.3);">
+                <button id="send-friend-request-btn" 
+                style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%); 
+                margin: 0; padding: 8px 20px; background: #1ed760; color: #000; border: none; 
+                border-radius: 8px; font-weight: 600; transition: all 0.2s ease; cursor: pointer;">
+                    Send
+                </button>
+            </div>
+            <div id="add-friend-message" style="min-height: 22px; font-size: 0.95rem; color: #fff; margin-bottom: 15px; text-align: center; transition: opacity 0.3s ease;"></div>
+            <div id="add-friend-preview" style="display: none; align-items: center; background: rgba(40,40,40,0.6); 
+            border-radius: 12px; padding: 15px; margin: 10px 0; transition: all 0.3s ease; transform: translateY(5px); opacity: 0;">
+                <!-- JS will fill this with user preview -->
+            </div>
+            <div style="font-size: 0.9rem; color: #b3b3b3; text-align: center; margin-top: 15px; line-height: 1.4;">
+                <i class="bi bi-info-circle" style="margin-right: 5px;"></i>
+                Only add people you know. UserID is case-sensitive.
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    // Make user info available to friends.js with proper defaults
+    window.currentUserId = "{{ user_id|default:'' }}";
+    window.blockedUserIds = {{ blocked_userids|safe|default:'[]' }};
+    window.friendUserIds = {{ friend_userids|safe|default:'[]' }};
+    
+    // Add validation that arrays are properly initialized
+    if (!Array.isArray(window.blockedUserIds)) window.blockedUserIds = [];
+    if (!Array.isArray(window.friendUserIds)) window.friendUserIds = [];
+</script>
+<script src="{% static 'home/friends.js' %}" defer></script>
+<script src="{% static 'home/search.js' %}" defer></script>
+<script src="{% static 'home/lyrics.js' %}"></script>
+<script>
+    // Get lyrics button element 
+    const lyricsButton = document.getElementById('lyrics-button');
+    
+    // Add click handler if button exists
+    if (lyricsButton) {
+        lyricsButton.addEventListener('click', () => {
+            showLyricsInMain();
+        });
+    }
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Get DOM elements for user ID copying
+    const userIdCopy = document.getElementById('user-id-copy');
+    const userIdValue = document.getElementById('user-id-value');
+    const toastMessage = document.getElementById('toast-message');
+
+    if (userIdCopy && userIdValue && toastMessage) {
+        userIdCopy.addEventListener('click', () => {
+            const id = userIdValue.textContent;
+            navigator.clipboard.writeText(id).then(() => {
+                toastMessage.textContent = "UserID copied!";
+                toastMessage.style.display = 'block';
+                toastMessage.style.animation = 'fadeIn 0.3s';
+                
+                setTimeout(() => {
+                    toastMessage.style.animation = 'fadeOut 0.3s';
+                    setTimeout(() => {
+                        toastMessage.style.display = 'none';
+                    }, 300);
+                }, 2000);
+            });
+        });
+    }
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const artistsLink = document.getElementById('artists-link');
+    const homeLink = document.getElementById('home-link');
+    const homeContent = document.getElementById('home-content');
+    const artistsContent = document.getElementById('artists-content');
+    const mainContentArea = document.getElementById('main-content-area');
+
+    artistsLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        homeContent.style.display = 'none';
+        artistsContent.style.display = 'block';
+        document.querySelector('.nav-option.active')?.classList.remove('active');
+        artistsLink.parentElement.classList.add('active');
+    });
+
+    homeLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        artistsContent.style.display = 'none';
+        homeContent.style.display = 'block';
+        document.querySelector('.nav-option.active')?.classList.remove('active');
+        homeLink.parentElement.classList.add('active');
+    });
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const homeLink = document.getElementById('home-link');
+    const artistsLink = document.getElementById('artists-link');
+    const homeContent = document.getElementById('home-content');
+    const artistsContent = document.getElementById('artists-content');
+
+    artistsLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        homeContent.style.display = 'none';
+        artistsContent.style.display = 'block';
+        history.pushState({}, '', '/artists/');
+        document.querySelector('.nav-option.active')?.classList.remove('active');
+        artistsLink.closest('.nav-option').classList.add('active');
+    });
+
+    homeLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        artistsContent.style.display = 'none';
+        homeContent.style.display = 'block';
+        history.pushState({}, '', '/');
+        document.querySelector('.nav-option.active')?.classList.remove('active');
+        homeLink.closest('.nav-option').classList.add('active');
+    });
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const artistsLink = document.getElementById('artists-link');
+    const homeLink = document.getElementById('home-link');
+    const homeContent = document.getElementById('home-content');
+    const artistsContent = document.getElementById('artists-content');
+
+    // Check URL parameters for initial view
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('view') === 'artists') {
+        homeContent.style.display = 'none';
+        artistsContent.style.display = 'block';
+        document.querySelector('.nav-option.active')?.classList.remove('active');
+        artistsLink.parentElement.classList.add('active');
+    }
+
+    artistsLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        homeContent.style.display = 'none';
+        artistsContent.style.display = 'block';
+        document.querySelector('.nav-option.active')?.classList.remove('active');
+        artistsLink.parentElement.classList.add('active');
+    });
+
+    homeLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        artistsContent.style.display = 'none';
+        homeContent.style.display = 'block';
+        document.querySelector('.nav-option.active')?.classList.remove('active');
+        homeLink.parentElement.classList.add('active');
+    });
+});
+</script>
+    <div class="fs-overlay">
+        <div class="fs-bg fs-bg-secondary"></div>
+        <div class="fs-bg fs-bg-primary"></div>
+        <img draggable="false" src="" alt="" class="fs-cover round spin" />
+        <div class="fs-title"></div>
+        <div class="fs-artists"></div>
+    </div>
+
+    <link rel="stylesheet" href="{% static 'home/fullscreen.css' %}">
+    <script src="{% static 'home/fullscreen.js' %}"></script>
+
+    <!-- Add Friend Modal functionality -->
+    <script>
+    // Add these functions directly in the HTML to ensure they're available
+    function openAddFriendModal() {
+        const addFriendModal = document.getElementById('add-friend-modal');
+        const modalContent = addFriendModal.querySelector('.modal-content');
+        const userIdInput = document.getElementById('add-friend-userid-input');
+        const addFriendMsg = document.getElementById('add-friend-message');
+        const addFriendPreview = document.getElementById('add-friend-preview');
+        
+        // Reset state
+        if (userIdInput) userIdInput.value = '';
+        if (addFriendMsg) addFriendMsg.textContent = '';
+        if (addFriendPreview) addFriendPreview.style.display = 'none';
+        
+        // Show modal
+        addFriendModal.classList.remove('hidden');
+        addFriendModal.style.display = 'flex';
+        
+        // Trigger animation
+        setTimeout(() => {
+            if (modalContent) {
+                modalContent.style.opacity = '1';
+                modalContent.style.transform = 'scale(1)';
+            }
+        }, 50);
+        
+        // Focus input
+        setTimeout(() => {
+            if (userIdInput) userIdInput.focus();
+        }, 300);
+    }
+
+    function closeAddFriendModal() {
+        const addFriendModal = document.getElementById('add-friend-modal');
+        const modalContent = addFriendModal.querySelector('.modal-content');
+        
+        // Animate closing
+        if (modalContent) {
+            modalContent.style.opacity = '0';
+            modalContent.style.transform = 'scale(0.95)';
+        }
+        
+        // Hide modal after animation
+        setTimeout(() => {
+            addFriendModal.style.display = 'none';
+            addFriendModal.classList.add('hidden');
+        }, 300);
+    }
+
+    // Override the click handler for the add-friend-btn
+    document.addEventListener('DOMContentLoaded', function() {
+        const addFriendBtn = document.getElementById('add-friend-btn');
+        if (addFriendBtn) {
+            addFriendBtn.addEventListener('click', function() {
+                if (!window.isAuthenticated) {
+                    // Show login modal instead
+                    if (window.loginButtonTrigger) {
+                        window.loginButtonTrigger.click();
+                    }
+                    return;
+                }
+                openAddFriendModal();
+            });
+        }
+        
+        // Make the modal close when clicking outside
+        const addFriendModal = document.getElementById('add-friend-modal');
+        if (addFriendModal) {
+            addFriendModal.addEventListener('click', function(e) {
+                if (e.target === addFriendModal) {
+                    closeAddFriendModal();
+                }
+            });
+        }
+        
+        // Add new hover effects for send button
+        const sendButton = document.getElementById('send-friend-request-btn');
+        if (sendButton) {
+            sendButton.addEventListener('mouseenter', () => {
+                sendButton.style.backgroundColor = '#1fdf64'; // Lighter Spotify green on hover
+                sendButton.style.transform = 'translateY(-50%) scale(1.05)';
+                sendButton.style.boxShadow = '0 2px 8px rgba(30, 215, 96, 0.3)';
+            });
+            
+            sendButton.addEventListener('mouseleave', () => {
+                sendButton.style.backgroundColor = '#1ed760'; // Back to normal Spotify green
+                sendButton.style.transform = 'translateY(-50%)';
+                sendButton.style.boxShadow = 'none';
+            });
+            
+            sendButton.addEventListener('mousedown', () => {
+                sendButton.style.transform = 'translateY(-50%) scale(0.95)';
+                sendButton.style.backgroundColor = '#1db954'; // Darker on press
+            });
+            
+            sendButton.addEventListener('mouseup', () => {
+                sendButton.style.transform = 'translateY(-50%) scale(1.05)';
+                sendButton.style.backgroundColor = '#1fdf64';
+            });
+        }
+        
+        // Add hover effect for close button
+        const closeBtn = addFriendModal ? addFriendModal.querySelector('.modal-close-btn') : null;
+        if (closeBtn) {
+            closeBtn.addEventListener('mouseenter', () => {
+                closeBtn.style.transform = 'scale(1.1)';
+                closeBtn.style.backgroundColor = 'rgba(0,0,0,0.1)';
+            });
+            
+            closeBtn.addEventListener('mouseleave', () => {
+                closeBtn.style.transform = '';
+                closeBtn.style.backgroundColor = '';
+            });
+        }
+    });
+    </script>
+</body>
+<script>
+    window.isAuthenticated = {{ is_authenticated|yesno:"true,false" }};
+  </script>
+</html>

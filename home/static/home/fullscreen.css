@@ -1,0 +1,78 @@
+.fs-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #000;
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.fs-overlay.active {
+    opacity: 1;
+}
+
+.fs-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.fs-bg-secondary {
+    background-size: 200px;
+    filter: blur(100px);
+    opacity: 0.5;
+}
+
+.fs-bg-primary {
+    background-size: cover;
+    background-position: center;
+    filter: blur(30px);
+    opacity: 0.3;
+}
+
+.fs-cover {
+    width: 400px;
+    height: 400px;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    margin-bottom: 30px;
+    transition: transform 0.3s ease;
+}
+
+.fs-cover.round {
+    border-radius: 50%;
+}
+
+.fs-cover.spin {
+    animation: spin 20s linear infinite;
+}
+
+.fs-title {
+    color: #fff;
+    font-size: 2.5em;
+    font-weight: 700;
+    margin: 20px 0 10px;
+    text-align: center;
+}
+
+.fs-artists {
+    color: #b3b3b3;
+    font-size: 1.2em;
+    text-align: center;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
